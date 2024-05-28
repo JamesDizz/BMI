@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="bmi-container">
+        <h1>BMI</h1>
+        <form id="bmi-form">
+            <div class="form-group">
+                <label for="weight">Weight (kg):</label>
+                <input type="number" id="weight" class="form-control" placeholder="Enter your weight" required>
+            </div>
+            <div class="form-group">
+                <label for="height">Height (cm):</label>
+                <input type="number" id="height" class="form-control" placeholder="Enter your height" required>
+            </div>
+            <button type="button" class="btn" onclick="calculateBMI()">Calculate BMI</button>
+        </form>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function calculateBMI() {
+    const weight = parseFloat(document.getElementById('weight').value);
+    const height = parseFloat(document.getElementById('height').value) / 100; // convert height to meters
+
+    if (isNaN(weight) || isNaN(height) || weight <= 0 || height <= 0) {
+        displayResult('Please enter valid weight and height values.', false);
+        return;
+    }
+
+    const bmi = (weight / (height * height)).toFixed(2);
+
+    let category;
+    if (bmi < 18.5) {
+        category = 'Underweight';
+    } else if (bmi < 24.9) {
+        category = 'Normal weight';
+    } else if (bmi < 29.9) {
+        category = 'Overweight';
+    } else {
+        category = 'Obesity';
+    }
+
+    displayResult(`Your BMI is ${bmi} (${category})`, true);
+}
+
+function displayResult(message, isSuccess) {
+    const resultDiv = document.getElementById('result');
+    resultDiv.style.display = 'block';
+    resultDiv.className = `result ${isSuccess ? 'success' : 'error'}`;
+    resultDiv.textContent = message;
+}
+
+    </script>
+</body>
+</html>
